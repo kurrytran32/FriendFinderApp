@@ -1,21 +1,11 @@
-//requires npm packaging
-let express = require('express');
-let bodyParser = require('body-parser');
-let path = require('path');
 
+//requiring friendsjs for data
+let friends = require('../data/friends.js')
 
-// Sets up the Express App
-// =============================================================
-var app = express();
-var PORT = process.env.PORT || 3000;
-
-// Sets up the Express app to handle data parsing
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 
 //displaying json info 
 app.get('/api/friends', function(req, res){
-    return res.json()//wherever the friends data gets sent to
+    return res.json(friends[0])//wherever the friends data gets sent to
 
 })
 
@@ -29,3 +19,19 @@ app.post('/api/friends', function(req, res){
 
     //res.json(newfriend)
 })
+
+module.exports = function(app){
+    app.get('/api/friends', function(req, res){
+        return res.json(friends)
+    
+    });
+
+    app.post('/api/friends', function(req, res){
+        let newfriend = req.body;
+    
+        console.log(newfriend);
+
+        friends.push(newfriend);
+    
+    })
+}
