@@ -14,7 +14,7 @@
 
     <script src="https://code.jquery.com/jquery.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <!-- <script src="main.js"></script> -->
+
 </head>
 
 <body>
@@ -38,8 +38,8 @@
             <option value="1">1 (Strongly Disagree)</option>
             <option value="2">2</option>
             <option value="3">3</option>
-            <option value="3">4</option>
-            <option value="3">5 (Strongly Agree)</option>
+            <option value="4">4</option>
+            <option value="5">5 (Strongly Agree)</option>
         </select>
 
         <h3>
@@ -51,8 +51,8 @@
             <option value="1">1 (Strongly Disagree)</option>
             <option value="2">2</option>
             <option value="3">3</option>
-            <option value="3">4</option>
-            <option value="3">5 (Strongly Agree)</option>
+            <option value="4">4</option>
+            <option value="5">5 (Strongly Agree)</option>
         </select>
 
 
@@ -65,8 +65,8 @@
             <option value="1">1 (Strongly Disagree)</option>
             <option value="2">2</option>
             <option value="3">3</option>
-            <option value="3">4</option>
-            <option value="3">5 (Strongly Agree)</option>
+            <option value="4">4</option>
+            <option value="5">5 (Strongly Agree)</option>
         </select>
 
 
@@ -79,8 +79,8 @@
             <option value="1">1 (Strongly Disagree)</option>
             <option value="2">2</option>
             <option value="3">3</option>
-            <option value="3">4</option>
-            <option value="3">5 (Strongly Agree)</option>
+            <option value="4">4</option>
+            <option value="5">5 (Strongly Agree)</option>
         </select>
 
 
@@ -93,8 +93,8 @@
             <option value="1">1 (Strongly Disagree)</option>
             <option value="2">2</option>
             <option value="3">3</option>
-            <option value="3">4</option>
-            <option value="3">5 (Strongly Agree)</option>
+            <option value="4">4</option>
+            <option value="5">5 (Strongly Agree)</option>
         </select>
 
 
@@ -107,8 +107,8 @@
             <option value="1">1 (Strongly Disagree)</option>
             <option value="2">2</option>
             <option value="3">3</option>
-            <option value="3">4</option>
-            <option value="3">5 (Strongly Agree)</option>
+            <option value="4">4</option>
+            <option value="5">5 (Strongly Agree)</option>
         </select>
 
 
@@ -121,8 +121,8 @@
             <option value="1">1 (Strongly Disagree)</option>
             <option value="2">2</option>
             <option value="3">3</option>
-            <option value="3">4</option>
-            <option value="3">5 (Strongly Agree)</option>
+            <option value="4">4</option>
+            <option value="5">5 (Strongly Agree)</option>
         </select>
 
 
@@ -135,8 +135,8 @@
             <option value="1">1 (Strongly Disagree)</option>
             <option value="2">2</option>
             <option value="3">3</option>
-            <option value="3">4</option>
-            <option value="3">5 (Strongly Agree)</option>
+            <option value="4">4</option>
+            <option value="5">5 (Strongly Agree)</option>
         </select>
 
 
@@ -149,8 +149,8 @@
             <option value="1">1 (Strongly Disagree)</option>
             <option value="2">2</option>
             <option value="3">3</option>
-            <option value="3">4</option>
-            <option value="3">5 (Strongly Agree)</option>
+            <option value="4">4</option>
+            <option value="5">5 (Strongly Agree)</option>
         </select>
 
 
@@ -170,14 +170,91 @@
         <br>
         <br>
 
-        
+
         <button type="submit" class="btn btn-primary btn-lg btn-block" id="submit">
             <i class="fa fa-check-circle" aria-hidden="true"></i>
             Submit</button>
 
 
     </div>
+    <br>
+
+    <!-- footer with links -->
+    <footer>
+        <div class="container">
+            <p>
+                <a href='/api/friends'>API Friends List</a>
+                |
+                <a href="https://github.com/kurrytran32/FriendFinderApp">GitHub Repo</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div id='matchModal' class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Your Match!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <h2 id='chosenName'></h2>
+
+                    <img id='chosenImage' width='450px' src=''>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </body>
+
+<script type='text/javascript'>
+    //event listener for submit button
+    $('#submit').on('click', function (event) {
+        event.preventDefault();
+
+        let answers = {
+            name: $('#name').val().trim(),
+            photo: $('#photo').val().trim(),
+            scores: [
+                $('#q1').val().trim(),
+                $('#q2').val().trim(),
+                $('#q3').val().trim(),
+                $('#q4').val().trim(),
+                $('#q5').val().trim(),
+                $('#q6').val().trim(),
+                $('#q7').val().trim(),
+                $('#q8').val().trim(),
+                $('#q9').val().trim(),
+                $('#q10').val().trim()
+
+            ]
+        }
+        console.log(answers);
+
+        $.post('/api/friends', answers, function (data) {
+
+            console.log(data)
+            $('#chosenName').text(data.matched)
+            $('#chosenImage').attr('src', data.matchedPhotos);
+
+            $('#matchModal').modal('toggle');
+
+        });
+
+
+
+    })
+
+</script>
 
 </html>
