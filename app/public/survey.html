@@ -204,7 +204,7 @@
 
                     <h2 id='chosenName'></h2>
 
-                    <img id='chosenImage' width='450px'>
+                    <img id='chosenImage' width='450px' src=''>
 
                 </div>
                 <div class="modal-footer">
@@ -245,7 +245,7 @@
 
             console.log(data)
             $('#chosenName').text(data.matched)
-            $('#chosenImage').attr('src', data.matchPhotos);
+            $('#chosenImage').attr('src', data.matchPhoto);
 
             $('#matchModal').modal('toggle');
 
